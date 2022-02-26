@@ -85,3 +85,16 @@ extension URL {
         return urlComponents.url
     }
 }
+
+extension UIViewController{
+    func showAlert(title : String, message : String){
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "Ok",
+                                         style: .destructive) {(result: UIAlertAction) in
+        }
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+}

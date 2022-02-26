@@ -231,6 +231,7 @@
                                     </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="1TH-Oh-Mzd"/>
                                     <constraint firstItem="AF5-us-EyY" firstAttribute="width" secondItem="KmR-a1-Zfe" secondAttribute="width" id="Ejk-A0-0qf"/>
                                     <constraint firstItem="AF5-us-EyY" firstAttribute="width" secondItem="llY-oh-B26" secondAttribute="width" multiplier="0.411168" id="fcI-Ao-pn5"/>
                                 </constraints>
@@ -313,7 +314,6 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="WSh-4P-JI4" firstAttribute="leading" secondItem="llY-oh-B26" secondAttribute="leading" id="1Tq-Va-Wm5"/>
-                            <constraint firstItem="llY-oh-B26" firstAttribute="height" secondItem="3FX-WH-sr3" secondAttribute="height" multiplier="0.0558036" id="3wH-Ek-V34"/>
                             <constraint firstItem="WSh-4P-JI4" firstAttribute="trailing" secondItem="llY-oh-B26" secondAttribute="trailing" id="7Rg-GZ-art"/>
                             <constraint firstItem="MbY-0T-6Of" firstAttribute="leading" secondItem="ekp-yW-9hE" secondAttribute="leading" id="CCn-JE-sZ6"/>
                             <constraint firstItem="llY-oh-B26" firstAttribute="height" secondItem="WSh-4P-JI4" secondAttribute="height" id="DmH-Pn-rGW"/>

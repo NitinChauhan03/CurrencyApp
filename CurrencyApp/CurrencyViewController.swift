@@ -36,9 +36,7 @@ class CurrencyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.getCurrenciesData { success in
-            print(success)
-        }
+        viewModel.getCurrenciesData()
         titlelabel.text = viewModel.titleLabelValue
         datelabel.text = self.viewModel.todayDate
         titlelabel.textColor = self.viewModel.uiConfig.textColor
@@ -81,23 +79,20 @@ class CurrencyViewController: UIViewController {
             }
         }.disposed(by: disposeBag)
         
+        viewModel.showErrorMessageContent.asObservable().subscribe(onNext: { message in
+            if let errorMessage = message {
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error!", message: errorMessage )
+                }
+            }
+        }).disposed(by: disposeBag)
         
         numberToConvert.asObservable().subscribe { [unowned self] value in
             setConvertedValue(number: numberToConvert.value)
         
         }.disposed(by: disposeBag)
         
-//        viewModel.reloadLst.asObservable().subscribe { [unowned self] shouldReload in
-//            if let shouldReload = shouldReload.element {
-//                DispatchQueue.main.async {
-//                    if shouldReload {
-//                        self.currencyList.reloadData()
-//                    }
-//                }
-//            }
-//        }.disposed(by: disposeBag)
-        
-        currencyInputField.rx.controlEvent([.editingChanged, .editingDidEnd])
+        currencyInputField.rx.controlEvent([.editingDidBegin, .editingChanged, .editingDidEnd])
             .asObservable()
             .subscribe(onNext: { [unowned self] in
                 self.numberToConvert.accept(Double(self.currencyInputField.text ?? "1") ?? 1)
@@ -106,10 +101,12 @@ class CurrencyViewController: UIViewController {
     }
     
     func setConvertedValue(number: Double){
-        let convertedAmount = viewModel.getConvertedAmountToStr(from: fromButton.titleLabel?.text, to: toButton.titleLabel?.text , numberToConvert: number)
-        convertedField.text = "\(convertedAmount)"
+        if let fromVal = fromButton.titleLabel?.text, let toVal = toButton.titleLabel?.text{
+            if  let convertedAmount = viewModel.getConvertedAmountToStr(from: fromVal, to: toVal, numberToConvert: number){
+                convertedField.text = "\(convertedAmount)"
+            }
+        }
     }
-    
     
     // MARK: Actions
     @IBAction func fromButtonClicked(_ sender: Any) {
@@ -135,12 +132,19 @@ class CurrencyViewController: UIViewController {
                 }else{
                     sSelf.toButton.setTitle(_rateModel.currency, for: .normal)
                 }
-                
+                if sSelf.validateSelection(){
+                    sSelf.currencyInputField.becomeFirstResponder()
+                }
             }
             self.present(currencyPickerVC, animated: true, completion: nil)
         }
     }
-    
+    func validateSelection() -> Bool{
+        if (self.fromButton.titleLabel?.text != "From" && self.toButton.titleLabel?.text != "To"){
+           return true
+        }
+        return false
+    }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         

@@ -33,18 +33,18 @@ final class CurrencyViewModel  : BaseViewModel{
         let today = Date()
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
-        return "Rates as per Api Response Date \(dataSource.date ?? formatter1.string(from: today))"
+        return "Rates as per Date \(dataSource.date ?? formatter1.string(from: today))"
     }
     
-    func getConvertedAmountToStr(from : String?, to: String?, numberToConvert: Double) -> Double {
-        let inputToEURRate = getCurrencyDefaultValue(fromCurrency: from)
-        let targetToEURRate = getCurrencyDefaultValue(fromCurrency: to)
-        let total = numberToConvert / inputToEURRate * targetToEURRate
-        return total.rounded(toPlaces: 4)
+    func getConvertedAmountToStr(from : String, to: String, numberToConvert: Double) -> Double? {
+        if let inputToEURRate = getCurrencyDefaultValue(fromCurrency: from), let targetToEURRate = getCurrencyDefaultValue(fromCurrency: to){
+            let total = numberToConvert / inputToEURRate * targetToEURRate
+            return total.rounded(toPlaces: 4)
+        }
+        return nil
     }
     
-    private func getCurrencyDefaultValue(fromCurrency : String?) -> Double {
-        guard fromCurrency != nil else { return 0}
+    private func getCurrencyDefaultValue(fromCurrency : String) -> Double? {
         if let rates = self.dataSource.rates {
             for rate in rates {
                 if rate.currency == fromCurrency {
@@ -52,13 +52,13 @@ final class CurrencyViewModel  : BaseViewModel{
                 }
             }
         }
-        return 0.0
+        return nil
     }
     
 }
 extension CurrencyViewModel{
     // MARK: Requesting Currencies Data
-    func getCurrenciesData(completion : @escaping (Bool) -> ()){
+    func getCurrenciesData(){
         shouldDisplayActivityIndicator.accept(true)
         var ratesArray: [RateModel] = []
         networkManager.getCurrenciesData {[weak self] (response, error) in
@@ -66,7 +66,7 @@ extension CurrencyViewModel{
             guard let sSelf = self else { return }
             DispatchQueue.main.async {
                 guard error == nil else {
-                    completion(false)
+                    sSelf.showErrorMessageContent.accept(error)
                     return
                 }
                 if let res = response, res.rates.count > 0{
@@ -80,7 +80,6 @@ extension CurrencyViewModel{
                     sSelf.dataSource.base = res.base
                     sSelf.dataSource.date = res.date
                     sSelf.dataSource.rates = ratesArray
-                    completion(true)
                 }
             }
         }

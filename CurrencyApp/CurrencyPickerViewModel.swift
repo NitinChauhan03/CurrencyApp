@@ -14,7 +14,6 @@ final class CurrencyPickerViewModel : BaseViewModel {
     var uiConfig: UIConfigurationProtocol
     var shouldDisplayActivityIndicator = BehaviorRelay<Bool>(value: false)
     var showErrorMessageContent = BehaviorRelay<String?>(value: nil)
-    var reloadLst = BehaviorRelay<Bool>(value: false)
     private var dataSource: TableViewDataSourceProtocol
     
     
@@ -54,7 +53,7 @@ final class CurrencyPickerViewModel : BaseViewModel {
         let today = Date()
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
-        return "Rates as per Api Response Date \(dataSource.date ?? formatter1.string(from: today))"
+        return "Rates as per Date \(dataSource.date ?? formatter1.string(from: today))"
     }
     
 }

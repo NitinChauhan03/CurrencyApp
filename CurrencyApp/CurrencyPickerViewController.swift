@@ -57,16 +57,6 @@ class CurrencyPickerViewController: UIViewController {
                 }
             }
         }.disposed(by: disposeBag)
-        
-        viewModel.reloadLst.asObservable().subscribe { shouldReload in
-            if let shouldReload = shouldReload.element {
-                DispatchQueue.main.async {
-                    if shouldReload {
-                        self.currencyList.reloadData()
-                    }
-                }
-            }
-        }.disposed(by: disposeBag)
     }
     
     @IBAction func backBtnClicked(_ sender: Any) {
