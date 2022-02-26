@@ -12,8 +12,3 @@ protocol BaseViewModel: AnyObject {
     var shouldDisplayActivityIndicator: BehaviorRelay<Bool> { get set }
     var showErrorMessageContent: BehaviorRelay<String?> { get set }
 }
-
-enum CallingSource {
-    case from
-    case to
-}

@@ -7,30 +7,20 @@
 
 import Foundation
 
-enum NetworkResponse:String {
-    case success
-    case noresource = "The requested resource does not exist."
-    case noApiKey = "No API Key was specified or an invalid API Key was specified."
-    case authenticationError = "You need to be authenticated first."
-    case badRequest = "Bad request"
-    case outdated = "The url you requested is outdated."
-    case failed = "Network request failed."
-    case noData = "Response returned with no data to decode."
-    case unableToDecode = "We could not decode the response."
-    
+protocol NetworkManagerProtocol {
+    func getCurrenciesData(completion: @escaping (_ data: Data?,_ error: String?) -> Swift.Void)
 }
-
 
 enum Result<String>{
     case success
     case failure(String)
 }
 
-struct NetworkManager {
+struct NetworkManager : NetworkManagerProtocol{
     static let environment : NetworkEnvironment = .production
     let router = Router<CurrencyApi>()
     
-    func getCurrenciesData(completion: @escaping (_ exchangeRates: ExchangeRatesModel?,_ error: String?) -> Swift.Void){
+    func getCurrenciesData(completion: @escaping (_ data: Data?,_ error: String?) -> Swift.Void){
         router.request(.getCurrenciessUri) { data, response, error in
             
             if error != nil {
@@ -45,16 +35,7 @@ struct NetworkManager {
                         completion(nil, NetworkResponse.noData.rawValue)
                         return
                     }
-                    do {
-                        print(responseData)
-                        let jsonData = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers)
-                        print(jsonData)
-                        let apiResponse = try JSONDecoder().decode(ExchangeRatesModel.self, from: responseData)
-                        completion(apiResponse,nil)
-                    }catch {
-                        print(error)
-                        completion(nil, NetworkResponse.unableToDecode.rawValue)
-                    }
+                    completion(responseData, nil)
                 case .failure(let networkFailureError):
                     completion(nil, networkFailureError)
                 }

@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 class CurrencyPickerViewController: UIViewController {
-  
+    // MARK: Closure
     var selectionHandler: GenericClosure<RateModel?>?
     // MARK: View Model
     var viewModel : CurrencyPickerViewModel!

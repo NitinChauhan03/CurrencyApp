@@ -285,11 +285,10 @@
                                     <constraint firstItem="yRR-gB-4mC" firstAttribute="width" secondItem="WSh-4P-JI4" secondAttribute="width" multiplier="0.411168" id="P1e-fV-3yp"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIE-6p-VQ4" customClass="CustomButton" customModule="CurrencyApp" customModuleProvider="target">
-                                <rect key="frame" x="126" y="344" width="162" height="50"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIE-6p-VQ4" customClass="CustomButton" customModule="CurrencyApp" customModuleProvider="target">
+                                <rect key="frame" x="124" y="344" width="166" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Bs0-91-cQr"/>
-                                    <constraint firstAttribute="width" constant="162" id="yaJ-hG-uxK"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
                                 <color key="tintColor" red="0.0" green="0.47454108389999999" blue="0.95031140729999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -316,6 +315,7 @@
                             <constraint firstItem="WSh-4P-JI4" firstAttribute="leading" secondItem="llY-oh-B26" secondAttribute="leading" id="1Tq-Va-Wm5"/>
                             <constraint firstItem="WSh-4P-JI4" firstAttribute="trailing" secondItem="llY-oh-B26" secondAttribute="trailing" id="7Rg-GZ-art"/>
                             <constraint firstItem="MbY-0T-6Of" firstAttribute="leading" secondItem="ekp-yW-9hE" secondAttribute="leading" id="CCn-JE-sZ6"/>
+                            <constraint firstItem="IIE-6p-VQ4" firstAttribute="width" secondItem="3FX-WH-sr3" secondAttribute="width" multiplier="0.4" id="CHE-Rv-U2o"/>
                             <constraint firstItem="llY-oh-B26" firstAttribute="height" secondItem="WSh-4P-JI4" secondAttribute="height" id="DmH-Pn-rGW"/>
                             <constraint firstItem="llY-oh-B26" firstAttribute="top" secondItem="MbY-0T-6Of" secondAttribute="bottom" constant="50" id="ENk-1o-FSo"/>
                             <constraint firstItem="WSh-4P-JI4" firstAttribute="top" secondItem="llY-oh-B26" secondAttribute="bottom" constant="50" id="Oaj-mC-sha"/>

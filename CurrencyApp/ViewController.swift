@@ -17,8 +17,9 @@ class ViewController: UIViewController {
     @IBAction func didTapOnLetsStart(_ sender: Any) {
         let networkManager = NetworkManager()
         let uiConfig = UIConfiguration()
-        let tableViewDataSource = TableViewDataSource()
-        if let viewModel = CurrencyViewModel(networkManager: networkManager, uiConfig: uiConfig, dataSource: tableViewDataSource){
+        let currencyDataSource = CurrencyDataSource()
+        let parseManager = ParseManager()
+        if let viewModel = CurrencyViewModel(networkManager: networkManager, uiConfig: uiConfig, dataSource: currencyDataSource, parseManager: parseManager){
             let currencyViewController = UIStoryboard.getCurrencyViewController(viewModel: viewModel)
             self.navigationController?.pushViewController(currencyViewController, animated: true)
         }

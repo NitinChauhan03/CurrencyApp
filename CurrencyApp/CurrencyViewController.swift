@@ -34,9 +34,15 @@ class CurrencyViewController: UIViewController {
     var disposeBag = DisposeBag()
     var numberToConvert = BehaviorRelay<Double>(value: 1.0)
     
+    private enum CallingSource {
+        case from
+        case to
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.getCurrenciesData()
+        viewModel.getCurrencies()
         titlelabel.text = viewModel.titleLabelValue
         datelabel.text = self.viewModel.todayDate
         titlelabel.textColor = self.viewModel.uiConfig.textColor
@@ -52,15 +58,15 @@ class CurrencyViewController: UIViewController {
         self.view.addSubview(activityIndicator)
         fromButton.setTitleColor(self.viewModel.uiConfig.textColor, for: .normal)
         toButton.setTitleColor(self.viewModel.uiConfig.textColor, for: .normal)
-        fromButton.refreshBorderColor(_colorBorder: self.viewModel.uiConfig.textColor)
-        toButton.refreshBorderColor(_colorBorder: self.viewModel.uiConfig.textColor)
+        fromButton.refreshBorderColor(_colorBorder: self.viewModel.uiConfig.textColor ?? .blue)
+        toButton.refreshBorderColor(_colorBorder: self.viewModel.uiConfig.textColor ?? .blue)
         currencyInputField.layer.cornerRadius = 5
         currencyInputField.layer.borderWidth = 1
-        currencyInputField.layer.borderColor = viewModel.uiConfig.themeColor.cgColor
+        currencyInputField.layer.borderColor = viewModel.uiConfig.themeColor?.cgColor
         currencyInputField.keyboardType = .decimalPad
         convertedField.layer.cornerRadius = 5
         convertedField.layer.borderWidth = 1
-        convertedField.layer.borderColor = viewModel.uiConfig.themeColor.cgColor
+        convertedField.layer.borderColor = viewModel.uiConfig.themeColor?.cgColor
         dismissTextfieldKeyBoard()
     }
     
@@ -119,11 +125,9 @@ class CurrencyViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func routerView(callingSource : CallingSource){
+    private func routerView(callingSource : CallingSource){
         self.view.endEditing(true)
-        let networkManager = NetworkManager()
-        let uiConfig = UIConfiguration()
-        if let viewModel = CurrencyPickerViewModel(networkManager: networkManager, uiConfig: uiConfig, dataSource: viewModel.dataSource){
+        if let viewModel = CurrencyPickerViewModel(uiConfig: viewModel.uiConfig, dataSource: viewModel.dataSource){
             let currencyPickerVC = UIStoryboard.getCurrencyPickerViewController(viewModel: viewModel)
             currencyPickerVC.selectionHandler = { [weak self] rateModel in
                 guard let sSelf = self , let _rateModel = rateModel else { return }
@@ -133,13 +137,16 @@ class CurrencyViewController: UIViewController {
                     sSelf.toButton.setTitle(_rateModel.currency, for: .normal)
                 }
                 if sSelf.validateSelection(){
+                    if sSelf.currencyInputField.text == ""{
+                        sSelf.currencyInputField.text = "1"
+                    }
                     sSelf.currencyInputField.becomeFirstResponder()
                 }
             }
             self.present(currencyPickerVC, animated: true, completion: nil)
         }
     }
-    func validateSelection() -> Bool{
+    private func validateSelection() -> Bool{
         if (self.fromButton.titleLabel?.text != "From" && self.toButton.titleLabel?.text != "To"){
            return true
         }

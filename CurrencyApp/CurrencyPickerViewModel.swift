@@ -9,17 +9,14 @@ import Foundation
 import RxCocoa
 
 final class CurrencyPickerViewModel : BaseViewModel {
-    
-    private var networkManager: NetworkManager!
     var uiConfig: UIConfigurationProtocol
     var shouldDisplayActivityIndicator = BehaviorRelay<Bool>(value: false)
     var showErrorMessageContent = BehaviorRelay<String?>(value: nil)
-    private var dataSource: TableViewDataSourceProtocol
+    var dataSource: CurrencyDataSourceProtocol
     
     
     // MARK: View Model initialisation with parameters
-    init?(networkManager: NetworkManager, uiConfig: UIConfigurationProtocol, dataSource : TableViewDataSourceProtocol) {
-        self.networkManager = networkManager
+    init?(uiConfig: UIConfigurationProtocol, dataSource : CurrencyDataSourceProtocol) {
         self.uiConfig = uiConfig
         self.dataSource = dataSource
     }
@@ -46,7 +43,7 @@ final class CurrencyPickerViewModel : BaseViewModel {
     
     // MARK: Title Value
     var titleLabelValue : String{
-        return uiConfig.selectionTitle
+        return uiConfig.selectionTitle ?? ""
     }
     // MARK: Today Date
     var todayDate : String{

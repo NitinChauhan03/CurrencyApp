@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol TableViewDataSourceProtocol: AnyObject {
+protocol CurrencyDataSourceProtocol: AnyObject {
     var base: String? {get set}
     var date: String? {get set}
     var rates: [RateModel]? {get set}
@@ -15,7 +15,7 @@ protocol TableViewDataSourceProtocol: AnyObject {
     func getRowCount() -> Int?
 }
 
-class TableViewDataSource : TableViewDataSourceProtocol{
+class CurrencyDataSource : CurrencyDataSourceProtocol{
     var base: String?
     var date: String?
     var rates: [RateModel]?
