@@ -1,0 +1,27 @@
+
+/* Class = "UIButton"; normalTitle = "From"; ObjectID = "2o5-RB-eWv"; */
+"2o5-RB-eWv.normalTitle" = "From";
+
+/* Class = "UIButton"; normalTitle = "Details"; ObjectID = "IIE-6p-VQ4"; */
+"IIE-6p-VQ4.normalTitle" = "Details";
+
+/* Class = "UIButton"; normalTitle = "To"; ObjectID = "MF4-N6-ug3"; */
+"MF4-N6-ug3.normalTitle" = "To";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "OJD-Xn-9x8"; */
+"OJD-Xn-9x8.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "U6y-dX-oDI"; */
+"U6y-dX-oDI.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "eCW-Ah-gfU"; */
+"eCW-Ah-gfU.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ejY-in-hZT"; */
+"ejY-in-hZT.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ifZ-M4-sdj"; */
+"ifZ-M4-sdj.text" = "Label";
+
+/* Class = "UITextField"; text = "1"; ObjectID = "jaW-at-y6C"; */
+"jaW-at-y6C.text" = "1";

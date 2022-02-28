@@ -9,16 +9,21 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol CurrencyPickerViewControllerProtocol : AnyObject{
+    func didSelectCurrencyFromList(rateModel : RateModel)
+}
+
 class CurrencyPickerViewController: UIViewController {
     // MARK: Closure
     var selectionHandler: GenericClosure<RateModel?>?
     // MARK: View Model
-    var viewModel : CurrencyPickerViewModel!
+    fileprivate var viewModel : CurrencyPickerViewModel!
     var disposeBag = DisposeBag()
     // MARK: UILabels
     @IBOutlet weak var titlelabel: UILabel!
     @IBOutlet weak var datelabel: UILabel!
-    
+    // MARK: Delegate
+    weak var delegate : CurrencyPickerViewControllerProtocol?
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var currencyList: UITableView!{
         didSet{
@@ -28,6 +33,9 @@ class CurrencyPickerViewController: UIViewController {
         }
     }
     
+    func configureViewModel(viewModel : CurrencyPickerViewModel){
+        self.viewModel = viewModel
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,17 +83,23 @@ extension CurrencyPickerViewController : UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyTableViewCell.className) as! CurrencyTableViewCell
-        if let model = viewModel.getCurrenciesValueforRowIndex(index: indexPath.row) {
-            cell.configure(model, uiconfig: viewModel.uiConfig)
+        if let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyTableViewCell.className) as? CurrencyTableViewCell{
+            if let model = viewModel.getCurrenciesValueforRowIndex(index: indexPath.row) {
+                cell.configure(model, uiconfig: viewModel.uiConfig)
+            }
+            return cell
         }
-        return cell
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let model = viewModel.getCurrenciesValueforRowIndex(index: indexPath.row) else { return }
         dismiss(animated: true) { [weak self] in
-            self?.selectionHandler?(model)
+            if self?.delegate != nil{
+                self?.delegate?.didSelectCurrencyFromList(rateModel: model)
+            }
         }
     }
 }
+
+

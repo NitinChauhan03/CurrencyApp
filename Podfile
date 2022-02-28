@@ -6,7 +6,7 @@ target 'CurrencyApp' do
   use_frameworks!
      pod 'RxSwift'
      pod 'RxCocoa'
-
+     pod 'SwiftLint'
   # Pods for CurrencyApp
 
   target 'CurrencyAppTests' do

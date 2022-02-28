@@ -2,7 +2,7 @@
 
 import Foundation
 
-public typealias NetworkRouterCompletion = (_ data: Data?,_ response: URLResponse?,_ error: Error?)->()
+public typealias NetworkRouterCompletion = (_ data: Data?,_ response: URLResponse?,_ error: Error?)->Swift.Void
 
 protocol NetworkRouter: AnyObject {
     associatedtype EndPoint: EndPointType
@@ -17,7 +17,12 @@ class Router<EndPoint: EndPointType>: NetworkRouter {
         let session = URLSession.shared
         do {
             let request = try self.buildRequest(from: route)
+#if DEBUG
             NetworkLogger.log(request: request)
+#else
+// release only code
+#endif
+            
             task = session.dataTask(with: request, completionHandler: { data, response, error in
                 completion(data, response, error)
             })
@@ -88,4 +93,3 @@ class Router<EndPoint: EndPointType>: NetworkRouter {
     }
     
 }
-

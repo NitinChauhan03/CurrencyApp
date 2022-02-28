@@ -8,7 +8,7 @@
 import Foundation
 
 enum NetworkEnvironment {
-    case qa
+    case debug
     case production
     case staging
 }
@@ -20,14 +20,14 @@ public enum CurrencyApi{
 
 extension CurrencyApi: EndPointType {
     
-    var PositioningBaseURL : String {
+    var positioningBaseURL : String {
         switch NetworkManager.environment {
-        case .production, .qa, .staging: return Constants.URLs.apiBaseUrl
+        case .production, .debug, .staging: return infoForKey("API_URL") ?? Constants.URLs.apiBaseUrl
         }
     }
     
     var baseURL: URL {
-        guard let url = URL(string: PositioningBaseURL) else { fatalError("baseURL could not be configured.")}
+        guard let url = URL(string: positioningBaseURL) else { fatalError("baseURL could not be configured.")}
         return url.appending(parameters) ?? url
     }
     
@@ -67,10 +67,9 @@ extension CurrencyApi: EndPointType {
 private extension CurrencyApi {
     
     var accessKey: String? {
-        guard let path = Bundle.main.path(forResource: "API", ofType: "plist"),
-            let dictionary = NSDictionary(contentsOfFile: path) as? [String : String] else {
-                return nil
+        guard let accessKey = infoForKey("ACCESS_KEY") else {
+           return ""
         }
-        return dictionary["AccessKey"]
+        return accessKey
     }
 }

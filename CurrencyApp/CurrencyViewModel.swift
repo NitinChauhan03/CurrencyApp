@@ -16,7 +16,12 @@ final class CurrencyViewModel  : BaseViewModel{
     var uiConfig: UIConfigurationProtocol
     var shouldDisplayActivityIndicator = BehaviorRelay<Bool>(value: false)
     var showErrorMessageContent = BehaviorRelay<String?>(value: nil)
+    var reloadData = BehaviorRelay<Bool>(value: false)
     var dataSource: CurrencyDataSourceProtocol
+    var fromRateModel : RateModel?
+    var toRateModel : RateModel?
+    var rateModelArray = [RateModel]()
+    
     
     // MARK: View Model initialisation with parameters
     init?(networkManager: NetworkManagerProtocol, uiConfig: UIConfigurationProtocol, dataSource : CurrencyDataSourceProtocol, parseManager: ParseManagerProtocol) {
@@ -26,20 +31,35 @@ final class CurrencyViewModel  : BaseViewModel{
         self.parseManager = parseManager
     }
     
+    func getlabelValues() -> [String]{
+        var labelValueArray  = [String]()
+        labelValueArray.append(titleLabelValue)
+        labelValueArray.append(todayDate)
+        labelValueArray.append(baseCurrency)
+        return labelValueArray
+    }
+    
     // MARK: Title Value
-    var titleLabelValue : String{
+    private var titleLabelValue : String{
         return uiConfig.homeTitle ?? ""
     }
     // MARK: Today Date
-    var todayDate : String{
+    private var todayDate : String{
         let today = Date()
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
-        return "Rates as per Date \(dataSource.date ?? formatter1.string(from: today))"
+        return "\(&&"GetRate") \(dataSource.date ?? formatter1.string(from: today))"
     }
+    // MARK: Base Currency
+    private var baseCurrency : String{
+        return "\(&&"Base_Currency") \(dataSource.base ?? "EUR")"
+    }
+    // MARK: Get Currencies from Server
     func getCurrencies(){
         self.getCurrenciesData()
     }
+    
+    // MARK: Get Converted Value from source to target currency
     func getConvertedAmountToStr(from : String, to: String, numberToConvert: Double) -> Double? {
         if let inputToEURRate = getCurrencyDefaultValue(fromCurrency: from), let targetToEURRate = getCurrencyDefaultValue(fromCurrency: to){
             let total = numberToConvert / inputToEURRate * targetToEURRate
@@ -57,6 +77,13 @@ final class CurrencyViewModel  : BaseViewModel{
             }
         }
         return nil
+    }
+    func swapCurrency(){
+        if rateModelArray.count == 2{
+            let rate = rateModelArray[0]
+            rateModelArray[0] = rateModelArray[1]
+            rateModelArray[1] = rate
+        }
     }
     
 }
@@ -94,8 +121,9 @@ extension CurrencyViewModel{
                 ssSelf.showErrorMessageContent.accept(error)
                 return
             }
-            if let _dataSource = dataSource{
-                ssSelf.dataSource = _dataSource
+            if let dataSourceVal = dataSource{
+                ssSelf.dataSource = dataSourceVal
+                ssSelf.reloadData.accept(true)
             }
         }
     }

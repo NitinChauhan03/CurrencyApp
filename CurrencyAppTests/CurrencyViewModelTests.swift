@@ -13,8 +13,8 @@ class CurrencyViewModelTests: XCTestCase {
     var viewModel : CurrencyViewModel!
     fileprivate var service : MockCurrencyService!
     fileprivate var uiconfig : MockUIConfig!
-    fileprivate var tableDataSource : MockTableDataSource!
-    fileprivate var parseManger : MockParseManager!
+    fileprivate var tableDataSource: MockTableDataSource!
+    fileprivate var parseManger: MockParseManager!
     fileprivate var disposeBag = DisposeBag()
     
     override func setUp() {
@@ -39,13 +39,12 @@ class CurrencyViewModelTests: XCTestCase {
         XCTAssertNotNil(viewModel, "The currency view model should not be nil.")
         XCTAssertTrue(viewModel?.dataSource === tableDataSource, "The table datasource should be equal to the profile that was passed in.")
     }
-    
     func testFetchWithOutNetworkManager() {
         viewModel.networkManager = nil
         let expectation = XCTestExpectation(description: "ViewModel should not be able to fetch without network manager")
         
         // expected to not be able to fetch currencies
-        viewModel.showErrorMessageContent.asObservable().subscribe(onNext: { message in
+        viewModel.showErrorMessageContent.asObservable().subscribe(onNext: { _ in
             expectation.fulfill()
         }).disposed(by: disposeBag)
         
@@ -57,7 +56,7 @@ class CurrencyViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "ViewModel should not be able to fetch without parse manager")
         
         // expected to not be able to fetch currencies
-        viewModel.showErrorMessageContent.asObservable().subscribe(onNext: { message in
+        viewModel.showErrorMessageContent.asObservable().subscribe(onNext: { _ in
             expectation.fulfill()
         }).disposed(by: disposeBag)
         
@@ -82,9 +81,9 @@ class CurrencyViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Currency List Fetch")
         
         // giving a service mocking currencies
-        let dict = ["AED":4.105205,
-                    "AFN":102.403427,
-                    "ALL":121.063819,]
+        let dict = ["AED": 4.105205,
+                    "AFN": 102.403427,
+                    "ALL": 121.063819,]
         let data = Data(dict.description.utf8)
         service.data = data
         self.service.getCurrenciesData { (response , error) in
@@ -136,32 +135,21 @@ class MockCurrencyService : NetworkManagerProtocol {
 
 class MockUIConfig : UIConfigurationProtocol{
     var homeTitle: String?
-    
     var selectionTitle: String?
-    
     var themeColor: UIColor?
-    
     var defaultInitialValue: Int64?
-    
     var textColor: UIColor?
-    
 }
 class MockTableDataSource : CurrencyDataSourceProtocol{
     var base: String?
-    
     var date: String?
-    
     var rates: [RateModel]?
-    
     func getSectionCount() -> Int {
         return 0
     }
-    
     func getRowCount() -> Int? {
         return 0
-    }
-    
-    
+    }    
 }
 
 class MockParseManager : ParseManagerProtocol{

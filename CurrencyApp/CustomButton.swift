@@ -25,8 +25,8 @@ import UIKit
     
     func sharedInit() {
         refreshCorners(value: cornerRadius)
-        refreshBorderColor(_colorBorder: customBorderColor)
-        refreshBorder(_borderWidth: borderWidth)
+        refreshBorderColor(colorBorderVal: customBorderColor)
+        refreshBorder(borderWidthVal: borderWidth)
     }
     func refreshCorners(value: CGFloat) {
         layer.cornerRadius = value
@@ -40,22 +40,22 @@ import UIKit
     
     @IBInspectable var borderWidth: CGFloat = 2 {
         didSet {
-            refreshBorder(_borderWidth: borderWidth)
+            refreshBorder(borderWidthVal: borderWidth)
         }
     }
 
-    func refreshBorder(_borderWidth: CGFloat) {
-        layer.borderWidth = _borderWidth
+    func refreshBorder(borderWidthVal: CGFloat) {
+        layer.borderWidth = borderWidthVal
     }
 
     @IBInspectable var customBorderColor: UIColor = UIColor.init (red: 0, green: 122/255, blue: 255/255, alpha: 1){
         didSet {
-            refreshBorderColor(_colorBorder: customBorderColor)
+            refreshBorderColor(colorBorderVal: customBorderColor)
         }
     }
 
-    func refreshBorderColor(_colorBorder: UIColor) {
-        layer.borderColor = _colorBorder.cgColor
+    func refreshBorderColor(colorBorderVal: UIColor) {
+        layer.borderColor = colorBorderVal.cgColor
     }
     
 }

@@ -21,8 +21,8 @@ class ParseManager : ParseManagerProtocol{
                 let rate = RateModel(currency: value, value: key)
                 ratesArray.append(rate)
             }
-            ratesArray.sort { (a, b) -> Bool in
-                a.currency < b.currency
+            ratesArray.sort { (obj1, obj2) -> Bool in
+                obj1.currency < obj2.currency
             }
             let datasource = CurrencyDataSource()
             datasource.base = apiResponse.base

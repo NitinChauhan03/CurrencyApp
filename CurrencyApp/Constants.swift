@@ -14,7 +14,8 @@ struct Constants{
     }
     
     struct StringConstants{
-        static let homeTitle = "Currency Convertor"
-        static let titleName = "Select Currency"
+        static let homeTitle = &&"AppName"
+        static let titleName = &&"Select_Currency"
     }
+    
 }

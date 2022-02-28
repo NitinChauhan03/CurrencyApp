@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  CurrencyApp
+
+  Created by Nitin Chauhan on 01/03/22.
+  
+*/
+
+// MARK: Localizable Strings
+
+"AppName" = "Currency Convertor";
+"Select_Currency" = "Select Currency";
+"Error!" = "Error!";
+"GetRate" = "Rates as per Date";
+"Base_Currency" = "Base Currency";

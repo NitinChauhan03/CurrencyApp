@@ -13,8 +13,8 @@ import RxCocoa
 class CurrencyViewController: UIViewController {
 
     // MARK: Connections
-    @IBOutlet weak var fromButton: CustomButton!
-    @IBOutlet weak var toButton: CustomButton!
+    @IBOutlet weak var baseCurrencyBtnLabel: CustomButton!
+    @IBOutlet weak var targetCurrencyBtnLabel: CustomButton!
     let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     @IBOutlet weak var currencyInputField: UITextField!{
         didSet{
@@ -26,47 +26,50 @@ class CurrencyViewController: UIViewController {
             convertedField.isUserInteractionEnabled = false
         }
     }
-    // MARK: UILabels
-    @IBOutlet weak var titlelabel: UILabel!
-    @IBOutlet weak var datelabel: UILabel!
+    // MARK: UILabel Collection
+    @IBOutlet var displayLabelArray: [UILabel]!
+    
     // MARK: View Model
-    var viewModel : CurrencyViewModel!
-    var disposeBag = DisposeBag()
+    fileprivate var viewModel : CurrencyViewModel!
+    fileprivate var disposeBag = DisposeBag()
     var numberToConvert = BehaviorRelay<Double>(value: 1.0)
     
     private enum CallingSource {
         case from
         case to
     }
+    private var callingSource : CallingSource = .from
+    
+    
+    
+    func configureViewModel(viewModel : CurrencyViewModel){
+        self.viewModel = viewModel
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getCurrencies()
-        titlelabel.text = viewModel.titleLabelValue
-        datelabel.text = self.viewModel.todayDate
-        titlelabel.textColor = self.viewModel.uiConfig.textColor
-        datelabel.textColor = self.viewModel.uiConfig.textColor
         setupUI()
         self.navigationController?.navigationBar.isHidden = true
         bindActions()
-        // Do any additional setup after loading the view.
     }
-    
+    func setupDisplayLabels(){
+        for (index, value) in viewModel.getlabelValues().enumerated(){
+            displayLabelArray[index].text = value
+            displayLabelArray[index].textColor = self.viewModel.uiConfig.textColor
+        }
+    }
     func setupUI(){
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
-        fromButton.setTitleColor(self.viewModel.uiConfig.textColor, for: .normal)
-        toButton.setTitleColor(self.viewModel.uiConfig.textColor, for: .normal)
-        fromButton.refreshBorderColor(_colorBorder: self.viewModel.uiConfig.textColor ?? .blue)
-        toButton.refreshBorderColor(_colorBorder: self.viewModel.uiConfig.textColor ?? .blue)
-        currencyInputField.layer.cornerRadius = 5
-        currencyInputField.layer.borderWidth = 1
-        currencyInputField.layer.borderColor = viewModel.uiConfig.themeColor?.cgColor
+        baseCurrencyBtnLabel.setTitleColor(self.viewModel.uiConfig.textColor, for: .normal)
+        targetCurrencyBtnLabel.setTitleColor(self.viewModel.uiConfig.textColor, for: .normal)
+        baseCurrencyBtnLabel.refreshBorderColor(colorBorderVal: self.viewModel.uiConfig.textColor ?? .blue)
+        targetCurrencyBtnLabel.refreshBorderColor(colorBorderVal: self.viewModel.uiConfig.textColor ?? .blue)
         currencyInputField.keyboardType = .decimalPad
-        convertedField.layer.cornerRadius = 5
-        convertedField.layer.borderWidth = 1
-        convertedField.layer.borderColor = viewModel.uiConfig.themeColor?.cgColor
+        currencyInputField.setBorder(color: viewModel.uiConfig.themeColor ?? .blue)
+        convertedField.setBorder(color: viewModel.uiConfig.themeColor ?? .blue)
         dismissTextfieldKeyBoard()
     }
     
@@ -85,10 +88,20 @@ class CurrencyViewController: UIViewController {
             }
         }.disposed(by: disposeBag)
         
+        viewModel.reloadData.asObservable().subscribe { shouldReload in
+            if let shouldReload = shouldReload.element {
+                DispatchQueue.main.async {
+                    if shouldReload{
+                        self.setupDisplayLabels()
+                    }
+                }
+            }
+        }.disposed(by: disposeBag)
+        
         viewModel.showErrorMessageContent.asObservable().subscribe(onNext: { message in
             if let errorMessage = message {
                 DispatchQueue.main.async {
-                    self.showAlert(title: "Error!", message: errorMessage )
+                    self.showAlert(title: &&"Error!", message: errorMessage )
                 }
             }
         }).disposed(by: disposeBag)
@@ -107,7 +120,7 @@ class CurrencyViewController: UIViewController {
     }
     
     func setConvertedValue(number: Double){
-        if let fromVal = fromButton.titleLabel?.text, let toVal = toButton.titleLabel?.text{
+        if let fromVal = baseCurrencyBtnLabel.titleLabel?.text, let toVal = targetCurrencyBtnLabel.titleLabel?.text{
             if  let convertedAmount = viewModel.getConvertedAmountToStr(from: fromVal, to: toVal, numberToConvert: number){
                 convertedField.text = "\(convertedAmount)"
             }
@@ -121,33 +134,41 @@ class CurrencyViewController: UIViewController {
     @IBAction func toButtonclicked(_ sender: Any) {
         routerView(callingSource: .to)
     }
+    @IBAction func swapCurrenciesButtonClicked(_ sender: Any) {
+        self.currencyInputField.resignFirstResponder()
+        self.viewModel.swapCurrency()
+        self.updateCurrencies()
+    }
+    
     @IBAction func backBtnClicked(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
     private func routerView(callingSource : CallingSource){
         self.view.endEditing(true)
+        self.callingSource = callingSource
         if let viewModel = CurrencyPickerViewModel(uiConfig: viewModel.uiConfig, dataSource: viewModel.dataSource){
-            let currencyPickerVC = UIStoryboard.getCurrencyPickerViewController(viewModel: viewModel)
-            currencyPickerVC.selectionHandler = { [weak self] rateModel in
-                guard let sSelf = self , let _rateModel = rateModel else { return }
-                if callingSource == .from{
-                    sSelf.fromButton.setTitle(_rateModel.currency, for: .normal)
-                }else{
-                    sSelf.toButton.setTitle(_rateModel.currency, for: .normal)
-                }
-                if sSelf.validateSelection(){
-                    if sSelf.currencyInputField.text == ""{
-                        sSelf.currencyInputField.text = "1"
-                    }
-                    sSelf.currencyInputField.becomeFirstResponder()
-                }
-            }
-            self.present(currencyPickerVC, animated: true, completion: nil)
+            NavigationRouter.openCurrencyPickerViewController(withdelegate: self, viewModel: viewModel)
         }
     }
+    
+    func updateCurrencies(){
+        let fromCurrency = self.viewModel.rateModelArray.first
+        self.baseCurrencyBtnLabel.setTitle(fromCurrency?.currency, for: .normal)
+        if self.viewModel.rateModelArray.count > 1{
+            let toCurrency = self.viewModel.rateModelArray.last
+            self.targetCurrencyBtnLabel.setTitle(toCurrency?.currency, for: .normal)
+        }
+        if self.validateSelection(){
+            if self.currencyInputField.text == ""{
+                self.currencyInputField.text = "1"
+            }
+            self.currencyInputField.becomeFirstResponder()
+        }
+    }
+    
     private func validateSelection() -> Bool{
-        if (self.fromButton.titleLabel?.text != "From" && self.toButton.titleLabel?.text != "To"){
+        if (self.viewModel.rateModelArray.count == 2){
            return true
         }
         return false
@@ -170,3 +191,14 @@ class CurrencyViewController: UIViewController {
     }
 }
 extension CurrencyViewController : UITextFieldDelegate{ }
+
+extension CurrencyViewController : CurrencyPickerViewControllerProtocol{
+    func didSelectCurrencyFromList(rateModel: RateModel) {
+        if self.callingSource == .from{
+            self.viewModel.rateModelArray.insert(rateModel, at: 0)
+        }else{
+            self.viewModel.rateModelArray.insert(rateModel, at: 1)
+        }
+        self.updateCurrencies()
+    }
+}

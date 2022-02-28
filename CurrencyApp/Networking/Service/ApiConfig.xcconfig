@@ -1,0 +1,14 @@
+//
+//  ApiConfig.xcconfig
+//  CurrencyApp
+//
+//  Created by Nitin Chauhan on 28/02/22.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+
+API_URL = http:\/\/data.fixer.io\/api\/
+ACCESS_KEY = 004ab06d92fb1e883f608678e2fd71bf
+
