@@ -15,7 +15,7 @@ enum NetworkEnvironment {
 
 
 public enum CurrencyApi{
-    case getCurrenciessUri, getRatesUri
+    case getCurrenciessUri
 }
 
 extension CurrencyApi: EndPointType {
@@ -35,8 +35,6 @@ extension CurrencyApi: EndPointType {
         switch self {
         case .getCurrenciessUri:
             return "latest"
-        case .getRatesUri:
-            return "convert"
         }
     }
     
@@ -53,7 +51,7 @@ extension CurrencyApi: EndPointType {
     }
     var parameters: [URLQueryItem] {
         switch self {
-        case .getCurrenciessUri, .getRatesUri:
+        case .getCurrenciessUri:
             guard let key = accessKey else {
                 assertionFailure("Missing accessKey")
                 return []
