@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import RxCocoa
 
 
@@ -18,8 +17,6 @@ final class CurrencyViewModel  : BaseViewModel{
     var showErrorMessageContent = BehaviorRelay<String?>(value: nil)
     var reloadData = BehaviorRelay<Bool>(value: false)
     var dataSource: CurrencyDataSourceProtocol
-    var fromRateModel : RateModel?
-    var toRateModel : RateModel?
     var rateModelArray = [RateModel]()
     
     
@@ -95,7 +92,7 @@ extension CurrencyViewModel{
             self.showErrorMessageContent.accept("Missing Network Manager")
             return
         }
-        networkManager.getCurrenciesData {[weak self] (responseData, error) in
+        networkManager.getCurrenciesData(uri: .getCurrenciessUri) {[weak self] (responseData, error) in
             self?.shouldDisplayActivityIndicator.accept(false)
             guard let sSelf = self else { return }
             DispatchQueue.main.async {

@@ -10,7 +10,7 @@ import Foundation
 public typealias NetworkManagerCompletion = (_ data: Data?,_ error: String?)->Swift.Void
 
 protocol NetworkManagerProtocol {
-    func getCurrenciesData(completion: @escaping NetworkManagerCompletion)
+    func getCurrenciesData(uri : CurrencyApi, completion: @escaping NetworkManagerCompletion)
 }
 
 enum Result<String>{
@@ -23,8 +23,8 @@ struct NetworkManager : NetworkManagerProtocol{
     let router = Router<CurrencyApi>()
     let dataHandling = DataHandling()
     
-    func getCurrenciesData(completion: @escaping NetworkManagerCompletion){
-        router.request(.getCurrenciessUri) { data, response, error in
+    func getCurrenciesData(uri : CurrencyApi, completion: @escaping NetworkManagerCompletion){
+        router.request(uri) { data, response, error in
             
             if error != nil {
                 completion(nil, error?.localizedDescription)
@@ -39,4 +39,22 @@ struct NetworkManager : NetworkManagerProtocol{
             }
         }
     }
+    
+    func getHistoricalData(completion: @escaping NetworkManagerCompletion){
+        router.request(.getHistoricalUri) { data, response, error in
+            
+            if error != nil {
+                completion(nil, error?.localizedDescription)
+            }
+            
+            dataHandling.responseHandling(data, response) { responseData, error in
+                if error != nil{
+                    completion(nil, NetworkResponse.noData.rawValue)
+                }else{
+                    completion(responseData, nil)
+                }
+            }
+        }
+    }
+    
 }

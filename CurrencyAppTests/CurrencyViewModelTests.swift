@@ -134,6 +134,7 @@ class MockCurrencyService : NetworkManagerProtocol {
 }
 
 class MockUIConfig : UIConfigurationProtocol{
+    var historicalTitle: String?
     var homeTitle: String?
     var selectionTitle: String?
     var themeColor: UIColor?
@@ -144,6 +145,7 @@ class MockTableDataSource : CurrencyDataSourceProtocol{
     var base: String?
     var date: String?
     var rates: [RateModel]?
+    var selectedRates: [RateModel]?
     func getSectionCount() -> Int {
         return 0
     }

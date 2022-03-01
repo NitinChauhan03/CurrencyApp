@@ -26,4 +26,10 @@ extension UIStoryboard{
         viewController.configureViewModel(viewModel: viewModel)
         return viewController
     }
+    
+    class func getHistoricalViewController(viewModel : HistoryViewModel) -> HistoricalViewController {
+        let viewController : HistoricalViewController = main.getViewController()
+        viewController.configureViewModel(viewModel: viewModel)
+        return viewController
+    }
 }

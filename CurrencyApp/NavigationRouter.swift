@@ -26,4 +26,9 @@ class NavigationRouter{
         currencyPickerVC.delegate = viewController as? CurrencyPickerViewControllerProtocol
         viewController.present(currencyPickerVC, animated: true, completion: nil)
     }
+    
+    static func openHistoricalViewController(from viewController : UIViewController, viewModel : HistoryViewModel){
+        let historyVC = UIStoryboard.getHistoricalViewController(viewModel: viewModel)
+        viewController.navigationController?.pushViewController(historyVC, animated: true)
+    }
 }

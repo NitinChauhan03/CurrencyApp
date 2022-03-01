@@ -16,6 +16,7 @@ enum NetworkEnvironment {
 
 public enum CurrencyApi{
     case getCurrenciessUri
+    case getHistoricalUri
 }
 
 extension CurrencyApi: EndPointType {
@@ -35,6 +36,8 @@ extension CurrencyApi: EndPointType {
         switch self {
         case .getCurrenciessUri:
             return "latest"
+        case .getHistoricalUri:
+            return CurrencyConvertorCache.shared.getSelectDate()
         }
     }
     
@@ -57,6 +60,12 @@ extension CurrencyApi: EndPointType {
                 return []
             }
             return [URLQueryItem(name: "access_key", value: key)]
+        case .getHistoricalUri:
+            guard let key = accessKey else {
+                assertionFailure("Missing accessKey")
+                return []
+            }
+            return [URLQueryItem(name: "access_key", value: key), URLQueryItem(name: "symbols", value: CurrencyConvertorCache.shared.getQueryParameter())]
         }
     }
 }

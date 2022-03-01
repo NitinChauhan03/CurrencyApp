@@ -13,6 +13,7 @@ protocol UIConfigurationProtocol {
     var textColor : UIColor? {get}
     var homeTitle : String? {get}
     var selectionTitle : String? {get}
+    var historicalTitle : String? {get}
     var themeColor : UIColor? {get}
 }
 
@@ -28,9 +29,12 @@ class UIConfiguration: UIConfigurationProtocol {
         return Constants.StringConstants.homeTitle
     }
     var selectionTitle : String?{
-        return Constants.StringConstants.titleName
+        return Constants.StringConstants.pickerTitle
     }
     var themeColor : UIColor? {
         return UIColor.init(red: 0, green: 205/255, blue: 128/255, alpha: 1)
+    }
+    var historicalTitle : String? {
+        return Constants.StringConstants.histroyTitle
     }
 }

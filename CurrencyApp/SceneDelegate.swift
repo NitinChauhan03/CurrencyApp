@@ -19,7 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         if let currencyViewController = NavigationRouter.openCurrencyViewController(){
-            window.rootViewController = currencyViewController
+            let navViewController = UINavigationController(rootViewController: currencyViewController)
+            window.rootViewController = navViewController
         }
         self.window = window
         window.makeKeyAndVisible()

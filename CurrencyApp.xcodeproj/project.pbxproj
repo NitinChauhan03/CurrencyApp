@@ -57,6 +57,12 @@
 		234532F827CD3E2B005F49FC /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234532F727CD3E2B005F49FC /* URL+Extensions.swift */; };
 		234532FA27CD3E3A005F49FC /* NSObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234532F927CD3E3A005F49FC /* NSObject+Extensions.swift */; };
 		234532FF27CD513D005F49FC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2345330127CD513D005F49FC /* Localizable.strings */; };
+		23969EE927CDE03E002AAF34 /* HistoricalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23969EE827CDE03E002AAF34 /* HistoricalViewController.swift */; };
+		23969EED27CDE2E9002AAF34 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23969EEC27CDE2E9002AAF34 /* HistoryViewModel.swift */; };
+		23969EF227CE057D002AAF34 /* HeaderHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23969EF027CE057D002AAF34 /* HeaderHistoryTableViewCell.swift */; };
+		23969EF327CE057D002AAF34 /* HeaderHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23969EF127CE057D002AAF34 /* HeaderHistoryTableViewCell.xib */; };
+		23969EF527CE1A9F002AAF34 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23969EF427CE1A9F002AAF34 /* Date+Extensions.swift */; };
+		23969EF727CE1E37002AAF34 /* CurrencyConvertorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23969EF627CE1E37002AAF34 /* CurrencyConvertorCache.swift */; };
 		9658BD3B632F86E324EF4CF5 /* Pods_CurrencyApp_CurrencyAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E47C792658744082679143C6 /* Pods_CurrencyApp_CurrencyAppUITests.framework */; };
 		A2053C5EECAD4A2CABFDE488 /* Pods_CurrencyAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BADF3A676520556F9053CF38 /* Pods_CurrencyAppTests.framework */; };
 		F71EAA865296FE5C87D461BC /* Pods_CurrencyApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979BE8C87A62E5CA983234C1 /* Pods_CurrencyApp.framework */; };
@@ -136,6 +142,12 @@
 		234532F927CD3E3A005F49FC /* NSObject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extensions.swift"; sourceTree = "<group>"; };
 		2345330027CD513D005F49FC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		237FE44427CD604100CC8939 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		23969EE827CDE03E002AAF34 /* HistoricalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalViewController.swift; sourceTree = "<group>"; };
+		23969EEC27CDE2E9002AAF34 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		23969EF027CE057D002AAF34 /* HeaderHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		23969EF127CE057D002AAF34 /* HeaderHistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderHistoryTableViewCell.xib; sourceTree = "<group>"; };
+		23969EF427CE1A9F002AAF34 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		23969EF627CE1E37002AAF34 /* CurrencyConvertorCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConvertorCache.swift; sourceTree = "<group>"; };
 		3917D9B7C3D8B22FF7E4B9D5 /* Pods-CurrencyApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyApp.release.xcconfig"; path = "Target Support Files/Pods-CurrencyApp/Pods-CurrencyApp.release.xcconfig"; sourceTree = "<group>"; };
 		5A5BF2FC9F60E7BD1E6EC03F /* Pods-CurrencyAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyAppTests.debug.xcconfig"; path = "Target Support Files/Pods-CurrencyAppTests/Pods-CurrencyAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		666409B051656EFB1CC89A47 /* Pods-CurrencyApp-CurrencyAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyApp-CurrencyAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-CurrencyApp-CurrencyAppUITests/Pods-CurrencyApp-CurrencyAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -224,6 +236,7 @@
 				234532E627CCE151005F49FC /* Router */,
 				234532BB27C80803005F49FC /* CurrencyView */,
 				234532BC27C8081F005F49FC /* CurrencyPicker */,
+				23969EE727CDE00A002AAF34 /* CurrencyHistory */,
 				234532FB27CD50C1005F49FC /* Resources */,
 				2345325827C763E1005F49FC /* Main.storyboard */,
 				2345326327C763E2005F49FC /* Info.plist */,
@@ -337,6 +350,7 @@
 				234532B427C8025A005F49FC /* UIConfiguration.swift */,
 				234532C127C88049005F49FC /* Constants.swift */,
 				234532CF27C8C7E0005F49FC /* Utils.swift */,
+				23969EF627CE1E37002AAF34 /* CurrencyConvertorCache.swift */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -353,6 +367,7 @@
 				234532F527CD3E19005F49FC /* Double+Extensions.swift */,
 				234532F727CD3E2B005F49FC /* URL+Extensions.swift */,
 				234532F927CD3E3A005F49FC /* NSObject+Extensions.swift */,
+				23969EF427CE1A9F002AAF34 /* Date+Extensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -435,6 +450,17 @@
 				2345330127CD513D005F49FC /* Localizable.strings */,
 			);
 			name = Strings;
+			sourceTree = "<group>";
+		};
+		23969EE727CDE00A002AAF34 /* CurrencyHistory */ = {
+			isa = PBXGroup;
+			children = (
+				23969EE827CDE03E002AAF34 /* HistoricalViewController.swift */,
+				23969EEC27CDE2E9002AAF34 /* HistoryViewModel.swift */,
+				23969EF027CE057D002AAF34 /* HeaderHistoryTableViewCell.swift */,
+				23969EF127CE057D002AAF34 /* HeaderHistoryTableViewCell.xib */,
+			);
+			name = CurrencyHistory;
 			sourceTree = "<group>";
 		};
 		48F87F57F7A3DE2E5F6DF6A6 /* Frameworks */ = {
@@ -560,6 +586,7 @@
 				234532FF27CD513D005F49FC /* Localizable.strings in Resources */,
 				2345326227C763E2005F49FC /* LaunchScreen.storyboard in Resources */,
 				234532CE27C8C20C005F49FC /* CurrencyTableViewCell.xib in Resources */,
+				23969EF327CE057D002AAF34 /* HeaderHistoryTableViewCell.xib in Resources */,
 				2345325F27C763E2005F49FC /* Assets.xcassets in Resources */,
 				2345325A27C763E1005F49FC /* Main.storyboard in Resources */,
 			);
@@ -717,14 +744,17 @@
 				234532C827C89C4C005F49FC /* BaseViewModel.swift in Sources */,
 				234532E827CCE164005F49FC /* NavigationRouter.swift in Sources */,
 				234532B027C800B9005F49FC /* Router.swift in Sources */,
+				23969EE927CDE03E002AAF34 /* HistoricalViewController.swift in Sources */,
 				234532AB27C800B9005F49FC /* JSONParameterEncoder.swift in Sources */,
 				234532F427CD3E0C005F49FC /* UIView+Extensions.swift in Sources */,
+				23969EED27CDE2E9002AAF34 /* HistoryViewModel.swift in Sources */,
 				234532AA27C800B9005F49FC /* URLParameterEncoding.swift in Sources */,
 				2345325327C763E1005F49FC /* AppDelegate.swift in Sources */,
 				234532B227C800B9005F49FC /* EndPointType.swift in Sources */,
 				234532A927C800B9005F49FC /* ParameterEncoding.swift in Sources */,
 				234532D827CA00C0005F49FC /* Errors.swift in Sources */,
 				234532B127C800B9005F49FC /* NetworkLogger.swift in Sources */,
+				23969EF227CE057D002AAF34 /* HeaderHistoryTableViewCell.swift in Sources */,
 				234532FA27CD3E3A005F49FC /* NSObject+Extensions.swift in Sources */,
 				234532BE27C8083A005F49FC /* CurrencyPickerViewModel.swift in Sources */,
 				2345329527C7DF55005F49FC /* CurrencyViewController.swift in Sources */,
@@ -738,7 +768,9 @@
 				234532BA27C807F1005F49FC /* CurrencyPickerViewController.swift in Sources */,
 				234532AE27C800B9005F49FC /* HTTPTask.swift in Sources */,
 				234532EE27CD3D84005F49FC /* UITextField+Extensions.swift in Sources */,
+				23969EF527CE1A9F002AAF34 /* Date+Extensions.swift in Sources */,
 				234532F227CD3DD6005F49FC /* UITableViewCell+Extensions.swift in Sources */,
+				23969EF727CE1E37002AAF34 /* CurrencyConvertorCache.swift in Sources */,
 				2345328827C77727005F49FC /* CustomButton.swift in Sources */,
 				234532EA27CD3C6A005F49FC /* UIViewController+Extensions.swift in Sources */,
 				2345329127C7A892005F49FC /* ExchangeRatesModel.swift in Sources */,

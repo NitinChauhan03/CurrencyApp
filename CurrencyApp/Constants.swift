@@ -15,7 +15,8 @@ struct Constants{
     
     struct StringConstants{
         static let homeTitle = &&"AppName"
-        static let titleName = &&"Select_Currency"
+        static let pickerTitle = &&"Select_Currency"
+        static let histroyTitle = &&"History"
     }
     
 }

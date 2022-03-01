@@ -14,8 +14,6 @@ protocol CurrencyPickerViewControllerProtocol : AnyObject{
 }
 
 class CurrencyPickerViewController: UIViewController {
-    // MARK: Closure
-    var selectionHandler: GenericClosure<RateModel?>?
     // MARK: View Model
     fileprivate var viewModel : CurrencyPickerViewModel!
     var disposeBag = DisposeBag()
@@ -68,9 +66,7 @@ class CurrencyPickerViewController: UIViewController {
     }
     
     @IBAction func backBtnClicked(_ sender: Any) {
-        dismiss(animated: true) { [weak self] in
-            self?.selectionHandler?(nil)
-        }
+        self.dismiss(animated: true, completion: nil)
     }
 }
 extension CurrencyPickerViewController : UITableViewDelegate, UITableViewDataSource{

@@ -15,12 +15,8 @@ class CurrencyViewController: UIViewController {
     // MARK: Connections
     @IBOutlet weak var baseCurrencyBtnLabel: CustomButton!
     @IBOutlet weak var targetCurrencyBtnLabel: CustomButton!
-    let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-    @IBOutlet weak var currencyInputField: UITextField!{
-        didSet{
-            currencyInputField.addTarget(self, action: #selector(CurrencyViewController.textFieldDidChange(_:)), for: .editingChanged)
-        }
-    }
+    fileprivate let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+    @IBOutlet weak var currencyInputField: UITextField!
     @IBOutlet weak var convertedField: UITextField!{
         didSet{
             convertedField.isUserInteractionEnabled = false
@@ -144,6 +140,12 @@ class CurrencyViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func detailsBtnClicked(_ sender: Any) {
+        if let viewModel = HistoryViewModel(networkManager: viewModel.networkManager, uiConfig: viewModel.uiConfig, dataSource: viewModel.dataSource, parseManager: viewModel.parseManager){
+        NavigationRouter.openHistoricalViewController(from: self, viewModel: viewModel)
+        }
+    }
+    
     private func routerView(callingSource : CallingSource){
         self.view.endEditing(true)
         self.callingSource = callingSource
@@ -153,14 +155,16 @@ class CurrencyViewController: UIViewController {
     }
     
     func updateCurrencies(){
-        let fromCurrency = self.viewModel.rateModelArray.first
-        self.baseCurrencyBtnLabel.setTitle(fromCurrency?.currency, for: .normal)
+        if !self.viewModel.rateModelArray.isEmpty{
+            let fromCurrency = self.viewModel.rateModelArray.first
+            self.baseCurrencyBtnLabel.setTitle(fromCurrency?.currency, for: .normal)
+        }
         if self.viewModel.rateModelArray.count > 1{
             let toCurrency = self.viewModel.rateModelArray.last
             self.targetCurrencyBtnLabel.setTitle(toCurrency?.currency, for: .normal)
         }
         if self.validateSelection(){
-            if self.currencyInputField.text == ""{
+            if self.currencyInputField.text?.count ?? 0 < 1{
                 self.currencyInputField.text = "1"
             }
             self.currencyInputField.becomeFirstResponder()
@@ -172,10 +176,6 @@ class CurrencyViewController: UIViewController {
            return true
         }
         return false
-    }
-    
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        
     }
     // MARK: Dismiss Keyboard
     func dismissTextfieldKeyBoard() {
@@ -196,7 +196,8 @@ extension CurrencyViewController : CurrencyPickerViewControllerProtocol{
     func didSelectCurrencyFromList(rateModel: RateModel) {
         if self.callingSource == .from{
             self.viewModel.rateModelArray.insert(rateModel, at: 0)
-        }else{
+        }
+        else{
             self.viewModel.rateModelArray.insert(rateModel, at: 1)
         }
         self.updateCurrencies()
