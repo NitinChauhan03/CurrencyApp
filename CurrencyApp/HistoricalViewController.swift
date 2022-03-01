@@ -109,6 +109,7 @@ extension HistoricalViewController: UITableViewDelegate, UITableViewDataSource {
                 if let model = viewModel.getCurrenciesValueforRowIndex(index: indexPath.row) {
                     cell.configure(model, uiconfig: viewModel.uiConfig)
                 }
+                cell.selectionStyle = .none
                 return cell
             }
             return UITableViewCell()
@@ -116,6 +117,7 @@ extension HistoricalViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = UITableViewCell()
             cell.textLabel?.text = "Add More Currency"
             cell.textLabel?.textAlignment = .center
+            cell.selectionStyle = .none
             return cell
         }
     }

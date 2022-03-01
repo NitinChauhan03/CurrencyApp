@@ -32,7 +32,9 @@ class HeaderHistoryTableViewCell: UITableViewCell {
         baseCurrencyLabel.textColor = uiconfig.textColor
         dateTextfield.textColor = uiconfig.themeColor
         dateTextfield.setBorder(color: uiconfig.themeColor ?? .blue)
-        dateTextfield.text = dateArray.first
+        if dateTextfield.text?.count ?? 0 < 1{
+            dateTextfield.text = dateArray.first
+        }
         pickerDataSource = dateArray
     }
     

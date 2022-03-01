@@ -70,7 +70,7 @@ extension CurrencyApi: EndPointType {
     }
 }
 
-//MARK: Private variables/methods
+// MARK: Private variables/methods
 private extension CurrencyApi {
     
     var accessKey: String? {

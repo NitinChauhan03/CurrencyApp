@@ -40,21 +40,4 @@ struct NetworkManager : NetworkManagerProtocol{
         }
     }
     
-    func getHistoricalData(completion: @escaping NetworkManagerCompletion){
-        router.request(.getHistoricalUri) { data, response, error in
-            
-            if error != nil {
-                completion(nil, error?.localizedDescription)
-            }
-            
-            dataHandling.responseHandling(data, response) { responseData, error in
-                if error != nil{
-                    completion(nil, NetworkResponse.noData.rawValue)
-                }else{
-                    completion(responseData, nil)
-                }
-            }
-        }
-    }
-    
 }

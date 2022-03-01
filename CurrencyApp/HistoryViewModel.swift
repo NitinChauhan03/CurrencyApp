@@ -111,8 +111,8 @@ extension HistoryViewModel{
                 ssSelf.showErrorMessageContent.accept(error)
                 return
             }
-            if let dataSourceVal = dataSource{
-                ssSelf.historicalDataSource = dataSourceVal as! CurrencyDataSource
+            if let dataSourceVal = dataSource as? CurrencyDataSource{
+                ssSelf.historicalDataSource = dataSourceVal
                 ssSelf.reloadData.accept(true)
             }
         }
